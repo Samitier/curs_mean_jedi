@@ -8,7 +8,7 @@ class Dbcontext {
     }
 
     init() {
-        orm.connect("mysql://root@localhost/quotes_node", function (error, db) {
+        orm.connect(process.env.DB_CONNECTION_STRING, function (error, db) {
             if (error) console.error(error)
             else console.log("Connected successfully!")
 
