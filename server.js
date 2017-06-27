@@ -1,16 +1,19 @@
 const   express = require("express"),
-        http = require("http")
+        http = require("http"),
+        bodyParser = require("body-parser")
 
 const   router = require("./router")
         dbcontext = require("./database/dbcontext")
         
 class Server {
+    
     constructor() {
         this.init()
     }
 
     init() {
         this.app = express()
+        this.app.use(bodyParser.json())
         this.app.use(express.static("./public"))
         this.app.use("/api", router)
         this.app.use(

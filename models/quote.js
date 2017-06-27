@@ -17,7 +17,7 @@ class Quote {
             year: {
                 type: "integer",
                 required: true
-            }
+            },
         })
     }
 }

@@ -1,5 +1,9 @@
 const express = require("express")
 
+const   quotesController = require("./controllers/quotes.controller"),
+        categoriesController = require("./controllers/categories.controller")
+
+
 class Router {
 
     constructor() {
@@ -8,10 +12,28 @@ class Router {
     }
 
     addRoutes() {
+        /*
+            QUOTES
+        */
         this.router.route("/quotes")
-            .get((req, res) => res.json("Get quotes"))
-            .put((req, res) => res.json("put quotes"))
-            .delete((req, res) => res.json("delete quotes"))
+            .get(quotesController.getAll)
+            .post(quotesController.create)
+        this.router.route("/quotes/:id")
+            .get(quotesController.getSingle)
+            .put(quotesController.update)
+            .delete(quotesController.remove)
+
+        /*
+            CATEGORIES
+        */
+        this.router.route("/category")
+            .get(categoriesController.getAll)
+            .post(categoriesController.create)
+        this.router.route("/category/:id")
+            .get(categoriesController.getSingle)
+            .put(categoriesController.update)
+            .delete(categoriesController.remove)
+
     }
 }
 
