@@ -1,3 +1,7 @@
+/*
+    This class will create all the available routes for the API & 
+    relate them to the controller's middleware
+*/ 
 const express = require("express")
 
 const   quotesController = require("./controllers/quotes.controller"),

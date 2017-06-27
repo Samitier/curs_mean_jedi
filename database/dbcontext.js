@@ -1,3 +1,7 @@
+/*
+    DbContext configures the database & worksas an interface for node orm
+*/
+
 const orm = require("orm")
 
 const   quote = require("../models/quote"),
@@ -13,6 +17,7 @@ class Dbcontext {
     }
 
     init() {
+        // Connecting to the database
         orm.connect(process.env.DB_CONNECTION_STRING, (error, db) => {
             if (error) console.error(error)
             else console.log("Connected successfully!")
@@ -25,13 +30,13 @@ class Dbcontext {
             
             // Dropping database
             this.db.drop(err=> {
-                
+
                 // Syncing database & creating tables
                 this.db.sync((err) => {
                     if (err) console.error(err) 
                     console.log("Models added successfully!")
                     
-                    // Seeding all models
+                    // Seeding all models concurrently
                     this.db.models.user.create(usersSeed, function(err){  
                         if (err) console.error(err) 
                         console.log("* User seed completed successfully!")

@@ -1,3 +1,7 @@
+/*
+    Initialize the server & set the global vars via dotenv
+*/
+
 const dotenv = require("dotenv").config()
 
 const Server = require("../server")
