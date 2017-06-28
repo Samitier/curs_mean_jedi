@@ -1,10 +1,8 @@
 /*
     DbContext configures the database & worksas an interface for node orm
 */
-
 const   orm = require("orm"),
-        //{ promisify } = require("util")
-        promisify = require("util").promisify
+        { promisify } = require("util")
 
 const   quote = require("../models/quote"),
         user = require("../models/user"),
@@ -14,6 +12,7 @@ const   quote = require("../models/quote"),
         categoriesSeed = require("./seeds/categories.seed")
 
 class Dbcontext {
+    
     constructor() {
         this.init()
     }
@@ -46,7 +45,7 @@ class Dbcontext {
             // Connecting to the database
             this.db = await this._connect(process.env.DB_CONNECTION_STRING)
             console.log(" - Database connected successfully.")
-
+            
             // Defining DB Models
             user.define(this.db)
             categories.define(this.db)
@@ -65,7 +64,7 @@ class Dbcontext {
             await this._sync()
             console.log(" - Models synced successfully.")
 
-            // Seeding all models concurrently (if on development)
+            // Seeding all models (if on development)
             if (process.env.ENV === 'development') {
                 await this.create("category", categoriesSeed)
                 await Promise.all([
@@ -93,6 +92,20 @@ class Dbcontext {
     create (model, data) {
         let create = promisify(this.db.models[model].create)
         return create(data)
+    }
+
+    update (model, data) {
+        return new Promise( (resolve, reject) => {
+            model.save(data, (err, newQuote) => {
+                if(err) reject(err)
+                else resolve(newQuote)
+            })
+        })
+    }
+
+    remove (model) {
+        let remove = promisify(model.remove)
+        return remove()
     }
 }
 
