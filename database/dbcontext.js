@@ -2,7 +2,9 @@
     DbContext configures the database & worksas an interface for node orm
 */
 
-const orm = require("orm")
+const   orm = require("orm"),
+        //{ promisify } = require("util")
+        promisify = require("util").promisify
 
 const   quote = require("../models/quote"),
         user = require("../models/user"),
@@ -16,42 +18,81 @@ class Dbcontext {
         this.init()
     }
 
-    init() {
-        // Connecting to the database
-        orm.connect(process.env.DB_CONNECTION_STRING, (error, db) => {
-            if (error) console.error(error)
-            else console.log("Connected successfully!")
-            this.db = db
+    _connect (connectionString) {
+        let connect = promisify(orm.connect)
+        return connect(connectionString)
+    }
 
-            // Defining DB Models
-            quote.define(this.db)
-            user.define(this.db)
-            categories.define(this.db)
-            
-            // Dropping database
-            this.db.drop(err=> {
-
-                // Syncing database & creating tables
-                this.db.sync((err) => {
-                    if (err) console.error(err) 
-                    console.log("Models added successfully!")
-                    
-                    // Seeding all models concurrently
-                    this.db.models.user.create(usersSeed, function(err){  
-                        if (err) console.error(err) 
-                        console.log("* User seed completed successfully!")
-                    }) 
-                    this.db.models.quote.create(quotesSeed, function(err){
-                        if (err) console.error(err) 
-                        console.log("* Quote seed completed successfully!")
-                    })
-                    this.db.models.category.create(categoriesSeed, function(err){
-                        if (err) console.error(err) 
-                        console.log("* Categories seed completed successfully!")
-                    })
-                })
+    _drop () {
+        return new Promise ((resolve, reject) => {
+            this.db.drop(err=>{
+                if(err) reject(err)
+                else resolve()
             })
         })
+    }
+
+    _sync() {
+        return new Promise ((resolve, reject) => {
+            this.db.sync(err=>{
+                if(err) reject(err)
+                else resolve()
+            })
+        })
+    }
+
+    async init() {
+        try {
+            // Connecting to the database
+            this.db = await this._connect(process.env.DB_CONNECTION_STRING)
+            console.log(" - Database connected successfully.")
+
+            // Defining DB Models
+            user.define(this.db)
+            categories.define(this.db)
+            quote.define(this.db)
+
+            // Defining DB Relationships
+            quote.associate(this.db)
+
+            // Dropping database (if on development)
+            if (process.env.ENV === 'development') {
+                await this._drop()
+                console.log(" - Database dropped.")
+            }
+
+            // Syncing database & creating tables
+            await this._sync()
+            console.log(" - Models synced successfully.")
+
+            // Seeding all models concurrently (if on development)
+            if (process.env.ENV === 'development') {
+                await this.create("category", categoriesSeed)
+                await Promise.all([
+                    this.create("user", usersSeed),
+                    this.create("quote", quotesSeed),
+                ])
+                console.log(" - Models seeded successfully.")
+            }
+        }
+        catch(err) {
+            return console.error(err)
+        }
+    }
+
+    get (model, id) {
+        let get = promisify(this.db.models[model].get)
+        return get(id)
+    }
+
+    find (model, where = {}) {
+        let find = promisify(this.db.models[model].find)
+        return find(where)
+    }
+
+    create (model, data) {
+        let create = promisify(this.db.models[model].create)
+        return create(data)
     }
 }
 

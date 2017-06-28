@@ -4,7 +4,8 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "start": "node ./bin/initServer.js"
+    "start": "node ./bin/initServer.js",
+    "dev": "node_modules/.bin/nodemon ./bin/initServer.js"
   },
   "author": "Blai Samitier",
   "license": "ISC",
@@ -14,5 +15,8 @@
     "express": "^4.15.3",
     "mysql": "^2.13.0",
     "orm": "^3.2.3"
+  },
+  "devDependencies": {
+    "nodemon": "^1.11.0"
   }
 }

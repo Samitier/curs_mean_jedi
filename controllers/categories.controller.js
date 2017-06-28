@@ -11,10 +11,15 @@ class CategoriesController {
     }
 
     getSingle(req, res, next) {
+        // let { id } = req.params
+        // dbcontext.db.models.category.get(id, (err, category) => {
+        //     if(err) res.status(404).json(err)
+        //     else res.json(category)
+        // })
         let { id } = req.params
-        dbcontext.db.models.category.get(id, (err, category) => {
-            if(err) res.status(404).json(err)
-            else res.json(category)
+        dbcontext.getCategory(id, (err, quote) => {
+             if(err) res.status(404).json(err)
+             else res.json(quote)
         })
     }
 

@@ -3,7 +3,11 @@ const quotes = [
         text: "Keep your friends close, but your enemies closer.",
         character: "Michael Corleone",
         movie: "The Godfather Part II",
-        year: 1974
+        year: 1974,
+        category: { 
+            title: "Mafia",
+            description: ""
+        }
     },
     { 
         text:   "I've seen things you people wouldn't believe. "
@@ -19,7 +23,7 @@ const quotes = [
         character: "Princess Leia",
         movie: "Star Wars",
         year: 1977
-    },
+    }
 ]
 
 module.exports = quotes
