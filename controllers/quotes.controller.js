@@ -2,7 +2,6 @@ const   dbcontext = require("../database/dbcontext"),
         httpResponse = require("../utils/http-response")
 
 class QuotesController {
-    constructor() {}
 
     async getAll(req, res, next) {
         let { categoryId, character } = req.query,
@@ -40,27 +39,28 @@ class QuotesController {
         }
     }
 
-    // TODO: ASYNC/AWAIT
-
-    update (req, res, next) {
+    async update (req, res, next) {
         let { id } = req.params,
             userQuote = req.body
-        dbcontext.db.models.quote.get(id, (err, quote) => {
-            quote.save(userQuote, (err, newQuote) => {
-                if(err) res.status(500).json(err)
-                else res.json(newQuote)
-            })
-        })
+        try {
+            let quote = await dbcontext.get("quote", id)
+            res.json(await dbcontext.update(quote, userQuote))
+        } 
+        catch (err) {
+            res.status(500).json(err)
+        }
     }
 
-    remove(req, res, next) {
+    async remove(req, res, next) {
         let { id } = req.params
-        dbcontext.db.models.quote.get(id, (err, quote) => {
-            quote.remove((err, newQuote) => {
-                if(err) res.status(500).json(err)
-                else res.json(quote)
-            })
-        })
+        try {
+            let quote = await dbcontext.get("quote", id)
+            await dbcontext.remove(quote)
+            res.json(quote)
+        }
+        catch(err) {
+            res.status(500).json(err)
+        }
     }
 }
 

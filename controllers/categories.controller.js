@@ -1,55 +1,58 @@
 const dbcontext = require("../database/dbcontext")
 
 class CategoriesController {
-    constructor() {}
 
-    getAll(req, res, next) {
-        dbcontext.db.models.category.find({}, (err, categories) => {
-            if(err) res.status(500).json(err)
-            else res.json(categories)
-        })
+    async getAll(req, res, next) {
+        try {
+            res.json(await dbcontext.find("category"))
+        } 
+        catch (error) {
+            res.status(404).json(err)
+        }
     }
 
-    getSingle(req, res, next) {
-        // let { id } = req.params
-        // dbcontext.db.models.category.get(id, (err, category) => {
-        //     if(err) res.status(404).json(err)
-        //     else res.json(category)
-        // })
+    async getSingle(req, res, next) {
         let { id } = req.params
-        dbcontext.getCategory(id, (err, quote) => {
-             if(err) res.status(404).json(err)
-             else res.json(quote)
-        })
+        try {
+            res.json(await dbcontext.get("category", id))
+        }
+        catch(err) {
+            res.status(404).json(err) 
+        }
     }
 
-    create (req, res, next) {
+    async create (req, res, next) {
         let userCategory = req.body
-        dbcontext.db.models.category.create(userCategory, (err, category) => {
-            if(err) res.status(500).json(err)
-            else res.json(category)
-        })
+        try {
+            res.json(await dbcontext.create("category", userCategory))
+        }
+        catch(err) {
+            res.status(500).json(err)
+        }
     }
 
-    update (req, res, next) {
+    async update (req, res, next) {
         let { id } = req.params,
             userCategory = req.body
-        dbcontext.db.models.category.get(id, (err, category) => {
-            category.save(userCategory, (err, newCategory) => {
-                if(err) res.status(500).json(err)
-                else res.json(newCategory)
-            })
-        })
+        try {
+            let category = await dbcontext.get("category", id)
+            res.json(await dbcontext.update(category, userCategory))
+        } 
+        catch (err) {
+            res.status(500).json(err)
+        }
     }
 
-    remove(req, res, next) {
+    async remove(req, res, next) {
         let { id } = req.params
-        dbcontext.db.models.category.get(id, (err, category) => {
-            category.remove((err, newCategory) => {
-                if(err) res.status(500).json(err)
-                else res.json(category)
-            })
-        })
+        try {
+            let category = await dbcontext.get("category", id)
+            await dbcontext.remove(category)
+            res.json(category)
+        }
+        catch(err) {
+            res.status(500).json(err)
+        }
     }
 }
 
