@@ -1,14 +1,21 @@
-const dbcontext = require("../database/dbcontext")
+const   dbcontext = require("../database/dbcontext"),
+        httpResponse = require("../utils/http-response")
 
 class QuotesController {
     constructor() {}
 
     async getAll(req, res, next) {
+        let { categoryId, character } = req.query,
+            where = {}
+        if (categoryId) where.category_id = categoryId
+        if (character) where.character = character
         try {
-            res.json(await dbcontext.find("quote"))
+            let quotes = await dbcontext.find("quote", where)
+            if (!quotes.length) httpResponse.notFound(res)
+            else httpResponse.ok(res, quotes)
         } 
         catch (error) {
-            res.status(404).json(err)
+            httpResponse.badRequest(res, error)
         }
     }
 
@@ -25,10 +32,11 @@ class QuotesController {
     async create (req, res, next) {
         let userQuote = req.body
         try {
-            res.json(await dbcontext.create("quote", userQuote))
+            httpResponse.ok(res, await dbcontext.create("quote", userQuote))
         }
         catch(err) {
-            res.status(500).json(err)
+            if(err.type === "validation") httpResponse.badRequest(res, err)
+            httpResponse.error(res)
         }
     }
 

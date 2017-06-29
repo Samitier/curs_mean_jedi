@@ -16,13 +16,15 @@ const quotes = [
                 + "All those moments will be lost in time, like tears in rain. Time to die.",
         character: "Roy Batty",
         movie: "Blade Runner",
-        year: 1982
+        year: 1982,
+        category_id: 4
     },
     { 
         text:   "Help me Obi Wan Kenobi, you are my only hope.",
         character: "Princess Leia",
         movie: "Star Wars",
-        year: 1977
+        year: 1977,
+        category_id: 4
     }
 ]
 

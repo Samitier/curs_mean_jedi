@@ -23,7 +23,7 @@ class Quote {
 
     associate (db) {
         let { quote, category } = db.models
-        quote.hasOne('category', category)
+        quote.hasOne('category', category, { autoFetch: true, reverse: "quotes" })
     }
 }
 
