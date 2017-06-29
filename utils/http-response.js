@@ -27,6 +27,13 @@ class HttpResponse {
         }
         res.status(500).json(msg)
     }
+
+    unauthorized (res, msg) {
+        if(!msg || process.env.ENV === "production") {
+            msg = { message: "The authentication for this resource was not sucessful." }
+        }
+        res.status(401).json(msg)
+    }
 }
 
 module.exports = new HttpResponse()

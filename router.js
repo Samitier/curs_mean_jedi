@@ -5,7 +5,8 @@
 const express = require("express")
 
 const   quotesController = require("./controllers/quotes.controller"),
-        categoriesController = require("./controllers/categories.controller")
+        categoriesController = require("./controllers/categories.controller"),
+        authController = require("./controllers/auth.controller")
 
 
 class Router {
@@ -17,26 +18,31 @@ class Router {
 
     addRoutes() {
         /*
+            AUTH
+        */
+        this.router.post("/login", authController.login)
+
+        /*
             QUOTES
         */
         this.router.route("/quotes")
             .get(quotesController.getAll)
-            .post(quotesController.create)
+            .post(authController.authenticate, quotesController.create)
         this.router.route("/quotes/:id")
             .get(quotesController.getSingle)
-            .put(quotesController.update)
-            .delete(quotesController.remove)
+            .put(authController.authenticate, quotesController.update)
+            .delete(authController.authenticate, quotesController.remove)
 
         /*
             CATEGORIES
         */
         this.router.route("/category")
             .get(categoriesController.getAll)
-            .post(categoriesController.create)
+            .post(authController.authenticate, categoriesController.create)
         this.router.route("/category/:id")
             .get(categoriesController.getSingle)
-            .put(categoriesController.update)
-            .delete(categoriesController.remove)
+            .put(authController.authenticate, categoriesController.update)
+            .delete(authController.authenticate, categoriesController.remove)
 
     }
 }
