@@ -20,7 +20,7 @@ class Server {
         // Setting the body parser to work with JSON
         this.app.use(bodyParser.json())
         // Setting the static file server to the folder "public"
-        this.app.use(express.static("./public"))
+        this.app.use(express.static("./server/public"))
         // Adding the API routing
         this.app.use("/api", router)
         // Returning a "not found" message if no middleware has been hit

@@ -1,0 +1,1 @@
+webpackJsonp([1],[function(module,exports){console.log(function(){for(var result="",i=0,fizz=!1,buzz=!1;i<=100;++i,fizz=i%3==0,buzz=i%5==0)result+=fizz?"Fizz":"",result+=buzz?"Buzz":"",result+=fizz||buzz?"":i,result+=", ";return result}())}],[0]);
