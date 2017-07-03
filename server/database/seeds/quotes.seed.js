@@ -6,7 +6,7 @@ const quotes = [
         year: 1974,
         category: { 
             title: "Mafia",
-            description: ""
+            description: "mafia description"
         }
     },
     { 

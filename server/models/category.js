@@ -7,7 +7,7 @@ class Category {
                 required: true,
                 unique: true
             },
-            descrtiption: {
+            description: {
                 type: "text",
             },
         })

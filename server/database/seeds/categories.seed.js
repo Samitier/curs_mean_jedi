@@ -1,12 +1,12 @@
 const categories = [
     { 
         title: "Crime",
-        description: "",
+        description: "Crime description",
         id: 3
     },
     { 
         title: "Science Fiction",
-        description: "",
+        description: "science fiction description",
         id: 4
     }
 ]
