@@ -5,18 +5,19 @@ import { Http } from "@angular/http";
 export class QuotesApiService {
 
     constructor(private _http:Http) {}
-    
-    getQuotes():Promise<any> {
-        return this._http.get("/api/quotes")
+
+    _get(url):Promise<any> {
+        return this._http.get("/api/" + url)
                         .toPromise()
                         .then(response => response.json())
                         .catch(error => console.error(error))
     }
 
+    getQuotes():Promise<any> {
+        return this._get("quotes")
+    }
+
     getCategories():Promise<any> {
-        return this._http.get("/api/category")
-                        .toPromise()
-                        .then(response => response.json())
-                        .catch(error => console.error(error))
+        return this._get("category")
     }
 }

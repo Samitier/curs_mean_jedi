@@ -5,14 +5,19 @@ import { AppComponent } from "./app.component";
 import { RandomQuoteComponent } from "./components/random-quote.component";
 import { QuotesApiService } from "./services/quotes-api.service";
 import { CategoryListComponent } from "./components/category-list.component";
+import { RouterModule } from "@angular/router";
+import { appRoutes } from "./routes";
+import { CategoryDetailComponent } from "./components/category-detail.component";
 
 @NgModule({
     imports: [
+        RouterModule.forRoot(appRoutes),
         BrowserModule,
         HttpModule
     ],
     declarations: [
         AppComponent,
+        CategoryDetailComponent,
         RandomQuoteComponent,
         CategoryListComponent
     ],

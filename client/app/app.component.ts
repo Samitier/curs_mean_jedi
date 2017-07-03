@@ -4,8 +4,7 @@ import { Component, OnInit } from "@angular/core";
     selector: "main-app",
     template: `
     <div>
-        <random-quote></random-quote>
-        <category-list></category-list>
+        <router-outlet></router-outlet>
     </div>`
 })
 export class AppComponent {

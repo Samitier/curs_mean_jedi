@@ -9,7 +9,7 @@ import { Category } from "../models/category.model";
             Select a category from the list:
             <ul>
                 <li *ngFor="let category of categories" (click)="onShowDescription(category)">
-                    {{ category.title }}
+                    <a routerLink="/category/id">{{ category.title }}</a>
                 </li>
                 <div *ngIf="detailDescription">{{ detailDescription }}</div>
             </ul>
@@ -32,7 +32,6 @@ export class CategoryListComponent implements OnInit{
     }
 
     onShowDescription (category: Category) {
-        console.log(category);
         this.detailDescription = category.description
     }
 }
