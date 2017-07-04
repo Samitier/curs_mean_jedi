@@ -1,5 +1,6 @@
 import { NgModule } from "@angular/core"
 import { HttpModule } from "@angular/http";
+import { FormsModule } from "@angular/forms";
 import { BrowserModule } from "@angular/platform-browser";
 import { AppComponent } from "./app.component";
 import { RouterModule } from "@angular/router";
@@ -11,12 +12,14 @@ import { NotFoundComponent } from "./errors/not-found.component";
 import { CategoryListComponent } from "./category-list/category-list.component";
 import { QuotesApiService } from "./shared/services/quotes-api.service";
 import { QuotesListComponent } from "./quotes-list/quotes-list.component";
+import { QuoteFormComponent } from "./quotes-list/components/quote-form.component";
 
 @NgModule({
     imports: [
         RouterModule.forRoot(appRoutes),
         BrowserModule,
-        HttpModule
+        HttpModule,
+        FormsModule
     ],
     declarations: [
         AppComponent,
@@ -24,7 +27,8 @@ import { QuotesListComponent } from "./quotes-list/quotes-list.component";
         RandomQuoteComponent,
         CategoryListComponent,
         NotFoundComponent,
-        QuotesListComponent
+        QuotesListComponent,
+        QuoteFormComponent
     ],
     providers: [
         QuotesApiService

@@ -23,4 +23,8 @@ export class QuotesApiService {
     getCategory(id:string):Promise<any> {
         return this._get("category/" + id)
     }
+
+    getQuote(id:string):Promise<any> {
+        return this._get("quote/" + id)
+    }
 }

@@ -1,5 +1,14 @@
+
+html {
+    box-sizing: border-box;
+}
+*, *:before, *:after {
+    box-sizing: inherit;
+}
+
 a {
     text-decoration: none;
+    cursor: pointer;
 }
 
 ul {
@@ -8,4 +17,23 @@ ul {
     li {
         padding: 1em 0;
     }
+}
+
+textarea {
+    width: 100%;
+    border: 1px solid grey;
+    border-radius: 5px;
+}
+input {
+    width:100%;
+    border-radius: 5px;
+    padding: 10px 5px;
+    outline:none;
+    border: 1px solid grey;
+    box-shadow: none;
+}
+
+label {
+    font-weight: bold;
+    line-height: 2.5;
 }

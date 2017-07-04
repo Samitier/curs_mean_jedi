@@ -1,6 +1,6 @@
 import { OnInit, Component } from "@angular/core";
-import { Quote } from "@angular/compiler/src/expression_parser/ast";
 import { QuotesApiService } from "../shared/services/quotes-api.service";
+import { Quote } from "../shared/models/quote.model";
 
 
 @Component({
@@ -8,18 +8,27 @@ import { QuotesApiService } from "../shared/services/quotes-api.service";
     template: `
         <section class="quote-list-component container" *ngIf="quotes">
             <h1 class="text-center">List of quotes</h1>
+            <div class="text-center">
+                <a (click)="onAddNewQuote()" class="btn btn-add">
+                    <i class="material-icons">add</i> 
+                    <span>Add new</span> 
+                </a>
+            </div>
+            <br>
             <ul>
                 <li *ngFor="let quote of quotes">
                     <div class="quote">"{{ quote.text }}"</div>
                     <div class="author">- {{ quote.character }}</div>
                 </li>
             </ul>
+            <quote-form *ngIf="isEditing"></quote-form>
         </section>
     `
 }) 
 export class QuotesListComponent implements OnInit {
     
     quotes: Quote[]
+    isEditing: boolean = false
 
     constructor(private _api: QuotesApiService) {}
 
@@ -30,5 +39,9 @@ export class QuotesListComponent implements OnInit {
         catch(err) {
             //
         }
+    }
+
+    onAddNewQuote() {
+        this.isEditing = true
     }
 }
