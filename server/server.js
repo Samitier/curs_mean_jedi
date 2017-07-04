@@ -23,9 +23,12 @@ class Server {
         this.app.use(express.static("./server/public"))
         // Adding the API routing
         this.app.use("/api", router)
-        // Returning a "not found" message if no middleware has been hit
+        // // Returning a "not found" message if no middleware has been hit
+        // this.app.use(
+        //     (req, res) => res.status(404).json({ message: "Resource not found" })
+        // )
         this.app.use(
-            (req, res) => res.status(404).json({ message: "Resource not found" })
+            (req, res) => res.sendFile(__dirname + "/public/index.html")
         )
     }
 

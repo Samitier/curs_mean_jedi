@@ -2,6 +2,7 @@ import { OnInit, Component } from "@angular/core";
 import { Quote } from "../models/quote.model";
 import { QuotesApiService } from "../services/quotes-api.service";
 
+
 @Component({
     selector: "random-quote",
     template: `

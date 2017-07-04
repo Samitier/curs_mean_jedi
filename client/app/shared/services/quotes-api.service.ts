@@ -10,7 +10,6 @@ export class QuotesApiService {
         return this._http.get("/api/" + url)
                         .toPromise()
                         .then(response => response.json())
-                        .catch(error => console.error(error))
     }
 
     getQuotes():Promise<any> {
@@ -19,5 +18,9 @@ export class QuotesApiService {
 
     getCategories():Promise<any> {
         return this._get("category")
+    }
+
+    getCategory(id:string):Promise<any> {
+        return this._get("category/" + id)
     }
 }

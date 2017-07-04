@@ -1,17 +1,16 @@
-import { QuotesApiService } from "../services/quotes-api.service";
 import { OnInit, Component } from "@angular/core";
-import { Category } from "../models/category.model";
+import { QuotesApiService } from "../shared/services/quotes-api.service";
+import { Category } from "../shared/models/category.model";
 
 @Component({
     selector: "category-list",
     template: `
-        <section class="category-list-component">
-            Select a category from the list:
+        <section class="category-list-component container">
+            <h1 class="text-center">Quote categories</h1>
             <ul>
                 <li *ngFor="let category of categories" (click)="onShowDescription(category)">
-                    <a routerLink="/category/id">{{ category.title }}</a>
+                    <a routerLink="/categories/{{ category.id }}">{{ category.title }}</a>
                 </li>
-                <div *ngIf="detailDescription">{{ detailDescription }}</div>
             </ul>
         </section>
     `
@@ -21,7 +20,6 @@ export class CategoryListComponent implements OnInit{
     constructor(private _api: QuotesApiService) {}
 
     categories: Category[]
-    detailDescription: string
 
     async ngOnInit() {
         try {
@@ -29,9 +27,5 @@ export class CategoryListComponent implements OnInit{
         } catch (error) {
             //
         }
-    }
-
-    onShowDescription (category: Category) {
-        this.detailDescription = category.description
     }
 }
