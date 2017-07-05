@@ -1,6 +1,7 @@
-import { OnInit, Component } from "@angular/core";
+import { OnInit, Component, ViewChild } from "@angular/core";
 import { QuotesApiService } from "../shared/services/quotes-api.service";
 import { Quote } from "../shared/models/quote.model";
+import { QuoteFormComponent } from "./components/quote-form.component";
 
 
 @Component({
@@ -21,14 +22,19 @@ import { Quote } from "../shared/models/quote.model";
                     <div class="author">- {{ quote.character }}</div>
                 </li>
             </ul>
-            <quote-form *ngIf="isEditing"></quote-form>
+            <quote-form 
+                #quoteForm
+                (onSubmitted)="onNewQuoteAdded($event)"
+            ></quote-form>
         </section>
     `
 }) 
 export class QuotesListComponent implements OnInit {
     
     quotes: Quote[]
-    isEditing: boolean = false
+    
+    @ViewChild(QuoteFormComponent)
+    quoteForm: QuoteFormComponent
 
     constructor(private _api: QuotesApiService) {}
 
@@ -42,6 +48,11 @@ export class QuotesListComponent implements OnInit {
     }
 
     onAddNewQuote() {
-        this.isEditing = true
+        this.quoteForm.open()
+    }
+
+    onNewQuoteAdded(quote: Quote) {
+        this.quotes.push(quote)
+        this.quoteForm.close()
     }
 }

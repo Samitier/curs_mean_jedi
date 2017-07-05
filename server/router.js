@@ -27,7 +27,7 @@ class Router {
         */
         this.router.route("/quotes")
             .get(quotesController.getAll)
-            .post(authController.authenticate, quotesController.create)
+            .post(quotesController.create)
         this.router.route("/quotes/:id")
             .get(quotesController.getSingle)
             .put(authController.authenticate, quotesController.update)
@@ -36,10 +36,10 @@ class Router {
         /*
             CATEGORIES
         */
-        this.router.route("/category")
+        this.router.route("/categories")
             .get(categoriesController.getAll)
             .post(authController.authenticate, categoriesController.create)
-        this.router.route("/category/:id")
+        this.router.route("/categories/:id")
             .get(categoriesController.getSingle)
             .put(authController.authenticate, categoriesController.update)
             .delete(authController.authenticate, categoriesController.remove)
