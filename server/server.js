@@ -4,7 +4,8 @@
 
 const   express = require("express"),
         http = require("http"),
-        bodyParser = require("body-parser")
+        bodyParser = require("body-parser"),
+        cookieParser = require("cookie-parser")
 
 const   router = require("./router")
         dbcontext = require("./database/dbcontext")
@@ -19,6 +20,7 @@ class Server {
         this.app = express()
         // Setting the body parser to work with JSON
         this.app.use(bodyParser.json())
+        this.app.use(cookieParser())
         // Setting the static file server to the folder "public"
         this.app.use(express.static("./server/public"))
         // Adding the API routing

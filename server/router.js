@@ -27,10 +27,10 @@ class Router {
         */
         this.router.route("/quotes")
             .get(quotesController.getAll)
-            .post(quotesController.create)
+            .post(authController.authenticate, quotesController.create)
         this.router.route("/quotes/:id")
             .get(quotesController.getSingle)
-            .put(quotesController.update)
+            .put(authController.authenticate, quotesController.update)
             .delete(authController.authenticate, quotesController.remove)
 
         /*

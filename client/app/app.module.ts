@@ -13,6 +13,8 @@ import { CategoryListComponent } from "./category-list/category-list.component";
 import { QuotesApiService } from "./shared/services/quotes-api.service";
 import { QuotesListComponent } from "./quotes-list/quotes-list.component";
 import { QuoteFormComponent } from "./quotes-list/components/quote-form.component";
+import { LoginComponent } from "./login/login.component";
+import { AuthService } from "./shared/services/auth.service";
 
 @NgModule({
     imports: [
@@ -28,9 +30,11 @@ import { QuoteFormComponent } from "./quotes-list/components/quote-form.componen
         CategoryListComponent,
         NotFoundComponent,
         QuotesListComponent,
-        QuoteFormComponent
+        QuoteFormComponent,
+        LoginComponent
     ],
     providers: [
+        AuthService,
         QuotesApiService
     ],
     bootstrap: [AppComponent]

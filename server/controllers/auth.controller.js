@@ -22,7 +22,9 @@ class AuthController {
             if (!users.length || !bcrypt.compareSync(password, users[0].password)) {
                 return httpResponse.unauthorized(res)
             }
-            return httpResponse.ok(res, { token: _generateToken(uses[0].email) })
+            let token =  _generateToken(users[0].email)
+            res.cookie("api-token", token)
+            return httpResponse.ok(res, { token })
         }
         catch(e) {
             httpResponse.error(res, e)
@@ -30,8 +32,8 @@ class AuthController {
     }
 
     async authenticate(req, res, next) {
-        let token = req.headers["api-token"]
-        if(!token) httpResponse.unauthorized(res)
+        let token = req.cookies["api-token"]
+        if(!token) return httpResponse.unauthorized(res)
         let verify = promisify(jwt.verify)
         try {
             let decoded = await verify(token, process.env.SERVER_PRIVATE_KEY)

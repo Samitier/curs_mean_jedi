@@ -2,15 +2,16 @@ import { OnInit, Component, ViewChild } from "@angular/core";
 import { QuotesApiService } from "../shared/services/quotes-api.service";
 import { Quote } from "../shared/models/quote.model";
 import { QuoteFormComponent } from "./components/quote-form.component";
+import { AuthService } from "../shared/services/auth.service";
 
 
 @Component({
     selector: "random-quote",
     template: `
         <section class="quote-list-component container" *ngIf="quotes">
-            <h1 class="text-center">List of quotes</h1>
+            <h1 class="text-center">All the Quotes</h1>
             <div class="text-center">
-                <a (click)="onAddNewQuote()" class="btn btn-add">
+                <a *ngIf="isAuthorized" (click)="onAddNewQuote()" class="btn btn-add">
                     <i class="material-icons">add</i> 
                     <span>Add new</span> 
                 </a>
@@ -20,9 +21,11 @@ import { QuoteFormComponent } from "./components/quote-form.component";
                 <li *ngFor="let quote of quotes">
                     <div class="quote">"{{ quote.text }}"</div>
                     <div class="author">- {{ quote.character }}</div>
-                    <a (click)="onEditQuote(quote)">
-                        <i class="material-icons">mode_edit</i>
-                    </a>
+                    <div class="action-buttons">
+                        <a *ngIf="isAuthorized" (click)="onEditQuote(quote)">
+                            <i class="material-icons">mode_edit</i>
+                        </a>
+                    </div>
                 </li>
             </ul>
             <quote-form 
@@ -36,13 +39,14 @@ import { QuoteFormComponent } from "./components/quote-form.component";
 export class QuotesListComponent implements OnInit {
     
     quotes: Quote[]
-    
+    isAuthorized: boolean = false
     @ViewChild(QuoteFormComponent)
     quoteForm: QuoteFormComponent
 
-    constructor(private _api: QuotesApiService) {}
+    constructor(private _api: QuotesApiService, private _auth: AuthService) {}
 
     async ngOnInit() {
+        this.isAuthorized = this._auth.isAuthorized()
         try {
             this.quotes = await this._api.getQuotes()
         }
