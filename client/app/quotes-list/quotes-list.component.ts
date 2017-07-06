@@ -20,11 +20,15 @@ import { QuoteFormComponent } from "./components/quote-form.component";
                 <li *ngFor="let quote of quotes">
                     <div class="quote">"{{ quote.text }}"</div>
                     <div class="author">- {{ quote.character }}</div>
+                    <a (click)="onEditQuote(quote)">
+                        <i class="material-icons">mode_edit</i>
+                    </a>
                 </li>
             </ul>
             <quote-form 
                 #quoteForm
                 (onSubmitted)="onNewQuoteAdded($event)"
+                (onUpdated)="onQuoteUpdated($event)" 
             ></quote-form>
         </section>
     `
@@ -51,8 +55,18 @@ export class QuotesListComponent implements OnInit {
         this.quoteForm.open()
     }
 
+    onEditQuote(quote:Quote) {
+        this.quoteForm.open(quote)
+    }
+
     onNewQuoteAdded(quote: Quote) {
         this.quotes.push(quote)
+        this.quoteForm.close()
+    }
+
+    onQuoteUpdated(quote: Quote) {
+        let i = this.quotes.findIndex(q => q.id == quote.id)
+        this.quotes[i] = quote
         this.quoteForm.close()
     }
 }

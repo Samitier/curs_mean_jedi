@@ -98,20 +98,21 @@ import { Category } from "../../shared/models/category.model";
     `
 })
 
-export class QuoteFormComponent implements OnInit {
+export class QuoteFormComponent {
     
-    quote: Quote
+    quote: Quote = new Quote()
     categories: Category[] = []
 
-    isOpened:boolean = false
+    isOpened: boolean = false
+    isEditing: boolean = false
 
     @Output() onSubmitted = new EventEmitter<Quote>()
+    @Output() onUpdated = new EventEmitter<Quote>()
 
     constructor(private _api: QuotesApiService) { }
 
-    async ngOnInit() {
-        this.quote = new Quote()
-        if(!this.isOpened || this.categories.length > 0) return
+    async init() {
+        if(this.categories.length > 0) return
         try {
             this.categories = await this._api.getCategories()
         }
@@ -122,8 +123,14 @@ export class QuoteFormComponent implements OnInit {
 
     async onSendQuote() {
         try {
-            await this._api.postQuote(this.quote)
-            this.onSubmitted.emit(this.quote)
+            if (!this.isEditing) {
+                await this._api.postQuote(this.quote)
+                this.onSubmitted.emit(this.quote)
+            }
+            else {
+                await this._api.putQuote(this.quote)
+                this.onUpdated.emit(this.quote)
+            }
         }
         catch (e) {
             console.log(e);
@@ -134,8 +141,16 @@ export class QuoteFormComponent implements OnInit {
         this.isOpened = false
     }
 
-    open () {
+    open (quote?: Quote) {
+        if(quote) {
+            this.quote = quote
+            this.isEditing = true
+        }
+        else {
+            this.quote = new Quote()
+            this.isEditing = false
+        }
         this.isOpened = true
-        this.ngOnInit()
+        this.init()
     }
 }

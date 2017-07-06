@@ -30,6 +30,8 @@ class QuotesController {
 
     async create (req, res, next) {
         let userQuote = req.body
+        delete userQuote.id
+        delete userQuote.category
         try {
             httpResponse.ok(res, await dbcontext.create("quote", userQuote))
         }
@@ -42,6 +44,8 @@ class QuotesController {
     async update (req, res, next) {
         let { id } = req.params,
             userQuote = req.body
+        delete userQuote.id
+        delete userQuote.category
         try {
             let quote = await dbcontext.get("quote", id)
             res.json(await dbcontext.update(quote, userQuote))

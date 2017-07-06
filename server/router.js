@@ -30,7 +30,7 @@ class Router {
             .post(quotesController.create)
         this.router.route("/quotes/:id")
             .get(quotesController.getSingle)
-            .put(authController.authenticate, quotesController.update)
+            .put(quotesController.update)
             .delete(authController.authenticate, quotesController.remove)
 
         /*

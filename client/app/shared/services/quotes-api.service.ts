@@ -19,22 +19,30 @@ export class QuotesApiService {
                         .then(response => response.json())
     }
 
+    _put(url, data):Promise<any> {
+        return this._http.put("/api/" + url, data)
+                        .toPromise()
+                        .then(response => response.json())
+    }
+
+
     getQuotes():Promise<any> {
         return this._get("quotes")
     }
-
     getQuote(id:string):Promise<any> {
         return this._get("quotes/" + id)
     }
-
     postQuote(quote:Quote):Promise<any> {
         return this._post("quotes", quote)
     }
+    putQuote(quote:Quote):Promise<any> {
+        return this._put("quotes/" + quote.id, quote)
+    }
+
 
     getCategories():Promise<any> {
         return this._get("categories")
     }
-
     getCategory(id:string):Promise<any> {
         return this._get("categories/" + id)
     }
