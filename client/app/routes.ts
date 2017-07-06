@@ -4,10 +4,11 @@ import { CategoryDetailComponent } from "./category-detail/category-detail.compo
 import { NotFoundComponent } from "./errors/not-found.component";
 import { QuotesListComponent } from "./quotes-list/quotes-list.component";
 import { LoginComponent } from "./login/login.component";
+import { RandomQuoteComponent } from './random-quote/random-quote.component';
 
 
 export const appRoutes: Routes = [
-    { path: "", component: QuotesListComponent },
+    { path: "", component: RandomQuoteComponent },
     { path: "quotes", component: QuotesListComponent },
 
     { path: "categories", component: CategoryListComponent },

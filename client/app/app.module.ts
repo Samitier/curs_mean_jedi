@@ -6,7 +6,6 @@ import { AppComponent } from "./app.component";
 import { RouterModule } from "@angular/router";
 
 import { appRoutes } from "./routes";
-import { RandomQuoteComponent } from "./shared/components/random-quote.component";
 import { CategoryDetailComponent } from "./category-detail/category-detail.component";
 import { NotFoundComponent } from "./errors/not-found.component";
 import { CategoryListComponent } from "./category-list/category-list.component";
@@ -15,6 +14,7 @@ import { QuotesListComponent } from "./quotes-list/quotes-list.component";
 import { QuoteFormComponent } from "./quotes-list/components/quote-form.component";
 import { LoginComponent } from "./login/login.component";
 import { AuthService } from "./shared/services/auth.service";
+import { RandomQuoteComponent } from './random-quote/random-quote.component';
 
 @NgModule({
     imports: [

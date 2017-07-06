@@ -17,7 +17,7 @@ import { AuthService } from "../shared/services/auth.service";
                 </a>
             </div>
             <br>
-            <ul>
+            <ul class="quote-list">
                 <li *ngFor="let quote of quotes">
                     <div class="quote">"{{ quote.text }}"</div>
                     <div class="author">- {{ quote.character }}</div>

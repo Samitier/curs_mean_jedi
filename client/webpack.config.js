@@ -67,11 +67,15 @@ module.exports = function (env) {
                     test: /\.(png|jpe?g|gif|svg|woff|woff2|ttf|eot|ico)$/,
                     loader: 'file-loader?name=assets/[name].[hash].[ext]'
                 },
+                {
+                    test: /\.html$/,
+                    loader: 'raw-loader'
+                },
             ]
         },
         devServer: {
            proxy: {
-                "/api": "http://localhost:4321"
+                "/api": "http://localhost:3000"
            }
        }
     }

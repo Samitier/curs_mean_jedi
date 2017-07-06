@@ -1,14 +1,18 @@
 import { OnInit, Component } from "@angular/core";
-import { Quote } from "../models/quote.model";
-import { QuotesApiService } from "../services/quotes-api.service";
+import { Quote } from '../shared/models/quote.model';
+import { QuotesApiService } from '../shared/services/quotes-api.service';
+
 
 
 @Component({
     selector: "random-quote",
     template: `
         <div class="random-quote-component" *ngIf="randomQuote">
-            <div class="quote">{{ randomQuote.text }}</div>
-            <button (click)="onShowRandomQuote()">More</button>
+            <h1 class="quote">"{{ randomQuote.text }}"</h1>
+            <div class="author">
+                - {{ randomQuote.character }}<br> {{ randomQuote.movie }} ({{ randomQuote.year }})
+            </div>
+            <a class="btn" (click)="onShowRandomQuote()"><i class="material-icons">refresh</i></a>
         </div>
     `
 }) 

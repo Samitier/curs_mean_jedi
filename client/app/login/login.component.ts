@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { User } from "../shared/models/user.model";
 import { QuotesApiService } from "../shared/services/quotes-api.service";
+import { Router } from '@angular/router';
 
 @Component({
     selector: 'login',
@@ -36,15 +37,15 @@ export class LoginComponent {
 
     user: User = new User()
 
-    constructor(private _api: QuotesApiService) { }
+    constructor(private _api: QuotesApiService, private _router: Router) { }
 
     async onSendLogin() {
         try {
-            let token = await this._api.login(this.user)
-            console.log(token);
+            await this._api.login(this.user)
+            this._router.navigate([""])
         }
         catch(e) {
-            console.log(e);
+            console.log(e)
         }
     }
 }
