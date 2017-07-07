@@ -124,7 +124,7 @@ export class QuoteFormComponent {
     async onSendQuote() {
         try {
             if (!this.isEditing) {
-                await this._api.postQuote(this.quote)
+                this.quote = await this._api.postQuote(this.quote)
                 this.onSubmitted.emit(this.quote)
             }
             else {
