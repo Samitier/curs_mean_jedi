@@ -15,6 +15,7 @@ import { QuoteFormComponent } from "./quotes-list/components/quote-form.componen
 import { LoginComponent } from "./login/login.component";
 import { AuthService } from "./shared/services/auth.service";
 import { RandomQuoteComponent } from './random-quote/random-quote.component';
+import { AppNavbarComponent } from "./shared/components/app-navbar.component";
 
 @NgModule({
     imports: [
@@ -31,7 +32,8 @@ import { RandomQuoteComponent } from './random-quote/random-quote.component';
         NotFoundComponent,
         QuotesListComponent,
         QuoteFormComponent,
-        LoginComponent
+        LoginComponent,
+        AppNavbarComponent
     ],
     providers: [
         AuthService,

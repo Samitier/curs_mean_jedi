@@ -5,7 +5,8 @@
 const   express = require("express"),
         http = require("http"),
         bodyParser = require("body-parser"),
-        cookieParser = require("cookie-parser")
+        cookieParser = require("cookie-parser"),
+        path = require("path")
 
 const   router = require("./router")
         dbcontext = require("./database/dbcontext")
@@ -22,7 +23,7 @@ class Server {
         this.app.use(bodyParser.json())
         this.app.use(cookieParser())
         // Setting the static file server to the folder "public"
-        this.app.use(express.static("./server/public"))
+        this.app.use(express.static(path.join(__dirname, "./public")))
         // Adding the API routing
         this.app.use("/api", router)
         // // Returning a "not found" message if no middleware has been hit
@@ -30,7 +31,7 @@ class Server {
         //     (req, res) => res.status(404).json({ message: "Resource not found" })
         // )
         this.app.use(
-            (req, res) => res.sendFile(__dirname + "/public/index.html")
+            (req, res) => res.sendFile(path.join(__dirname, "./public/index.html"))
         )
     }
 
