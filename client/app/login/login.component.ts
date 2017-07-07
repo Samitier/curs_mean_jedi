@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { User } from "../shared/models/user.model";
 import { QuotesApiService } from "../shared/services/quotes-api.service";
 import { Router } from '@angular/router';
+import { AuthService } from "../shared/services/auth.service";
 
 @Component({
     selector: 'login',
@@ -37,11 +38,16 @@ export class LoginComponent {
 
     user: User = new User()
 
-    constructor(private _api: QuotesApiService, private _router: Router) { }
+    constructor(
+        private _api: QuotesApiService, 
+        private _router: Router,
+        private _auth: AuthService
+    ) { }
 
     async onSendLogin() {
         try {
             await this._api.login(this.user)
+            this._auth.announceIsLogged()
             this._router.navigate([""])
         }
         catch(e) {

@@ -4,11 +4,7 @@ import { Component, OnInit } from "@angular/core";
     selector: "main-app",
     template: `
     <div>
-        <nav class="main-nav">
-            <a routerLink="/quotes">All Quotes</a>
-            <a routerLink="/categories">Categories</a>
-            <a routerLink="/login">Login</a>
-        </nav>
+        <app-navbar></app-navbar>
         <router-outlet></router-outlet>
     </div>`
 })

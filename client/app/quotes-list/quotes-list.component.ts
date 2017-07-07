@@ -1,8 +1,9 @@
-import { OnInit, Component, ViewChild } from "@angular/core";
+import { OnInit, Component, ViewChild, OnDestroy } from "@angular/core";
 import { QuotesApiService } from "../shared/services/quotes-api.service";
 import { Quote } from "../shared/models/quote.model";
 import { QuoteFormComponent } from "./components/quote-form.component";
 import { AuthService } from "../shared/services/auth.service";
+import { Subscription } from "rxjs/Subscription";
 
 
 @Component({
@@ -11,7 +12,7 @@ import { AuthService } from "../shared/services/auth.service";
         <section class="quote-list-component container" *ngIf="quotes">
             <h1 class="text-center">All the Quotes</h1>
             <div class="text-center">
-                <a *ngIf="isAuthorized" (click)="onAddNewQuote()" class="btn btn-add">
+                <a *ngIf="isLogged" (click)="onAddNewQuote()" class="btn btn-add">
                     <i class="material-icons">add</i> 
                     <span>Add new</span> 
                 </a>
@@ -22,7 +23,7 @@ import { AuthService } from "../shared/services/auth.service";
                     <div class="quote">"{{ quote.text }}"</div>
                     <div class="author">- {{ quote.character }}</div>
                     <div class="action-buttons">
-                        <a *ngIf="isAuthorized" (click)="onEditQuote(quote)">
+                        <a *ngIf="isLogged" (click)="onEditQuote(quote)">
                             <i class="material-icons">mode_edit</i>
                         </a>
                     </div>
@@ -36,17 +37,22 @@ import { AuthService } from "../shared/services/auth.service";
         </section>
     `
 }) 
-export class QuotesListComponent implements OnInit {
+export class QuotesListComponent implements OnInit, OnDestroy {
     
     quotes: Quote[]
-    isAuthorized: boolean = false
+
     @ViewChild(QuoteFormComponent)
     quoteForm: QuoteFormComponent
+
+    isLogged: boolean = false
+    private _isLoggedSubscription: Subscription
 
     constructor(private _api: QuotesApiService, private _auth: AuthService) {}
 
     async ngOnInit() {
-        this.isAuthorized = this._auth.isAuthorized()
+        this._isLoggedSubscription = this._auth.isLogged$.subscribe(isLogged => {
+            this.isLogged = isLogged
+        })
         try {
             this.quotes = await this._api.getQuotes()
         }
@@ -54,6 +60,10 @@ export class QuotesListComponent implements OnInit {
             //
         }
     }
+
+    ngOnDestroy() {
+        this._isLoggedSubscription.unsubscribe()
+    }       
 
     onAddNewQuote() {
         this.quoteForm.open()
